@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fa" class="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo list</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('./assets/fonts/Vazirmatn-Medium.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Vazir-bold';
+            src: url('./assets/fonts/Vazirmatn-Bold.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Vazir', sans-serif;
+        }
+    </style>
+
+</head>
+<body class="bg-white dark:bg-gray-900 text-black dark:text-white font-['Vazir']" dir="rtl">
+    <div class="flex flex-col justify-center items-center relative">
+        <div class="bg-[url('assets/images/bg-desktop-light.jpg')] dark:bg-[url('assets/images/bg-desktop-dark.jpg')] bg-cover bg-center dark:text-black w-full h-72">    
+        </div>
+        <div class="flex flex-col p-24 gap-8 w-full md:w-[768px]  bg-transparent absolute top-4 text-[14px]">
+            <div class="flex justify-between items-center">
+                <h1 class="text-[24px] text-white">لیست وظایف</h1>
+                <button><img src="./assets/images/icon-moon.svg" alt="icon-moon"></button>
+            </div>
+            <div class="flex justify-start items-center bg-white dark:bg-gray-600 dark:text-white rounded shadow p-4 gap-4">
+                <button class="border-2 rounded-2xl w-[25px] h-[25px] text-[10px]">+</button>
+                <input type="text" name="todo" id="todo-id" placeholder="افزودن وظیفه جدید..." class="focus:outline-none">
+            </div>
+            <div class="flex flex-col justify-center items-center bg-white dark:bg-gray-600 dark:text-white rounded shadow">
+                <ul class="flex flex-col w-full">
+                    <li class="flex justify-between items-center  p-4 gap-4 border-b-2" draggable="true">
+                        <div class="flex justify-start items-center gap-4">
+                            <input type="checkbox" class="w-5 h-5 rounded-full">
+                            <p>یادگیری جاوا اسکریپت</p>
+                        </div>
+                        <button> <img src="./assets/images/icon-cross.svg" alt="delete-icon"></button>
+                    </li>
+                </ul>
+                <div class="flex justify-between items-center bg-white rounded shadow w-full p-4 gap-4 text-[10px] text-gray-400 border-b-2">
+                    <p>
+                        <span>0</span>
+                        مورد باقی مانده است
+                    </p>
+                    <button class="hover:text-black">حذف موارد تکمیل شده</button>
+                </div>
+                <div class="flex justify-between items-center bg-white rounded shadow w-full p-4 gap-4 text-[10px] text-gray-400">
+                    <button class="hover:text-blue-500">همه</button>
+                    <button class="hover:text-blue-500">فعال</button>
+                    <button class="hover:text-blue-500">تکمیل</button>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-gray-400 dark:text-white mt-10">
+                <p> برای مرتب کردن وظایف میتوانید وظیفه موردنظر را بکشید و رها کنید - Drag And Drop</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
