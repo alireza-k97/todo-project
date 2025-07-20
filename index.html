@@ -19,31 +19,33 @@
         }
     </script>
 </head>
-<body class="font-['Vazir'] bg-gray-100 dark:bg-black" dir="rtl">
+<body class="font-['Vazir'] h-screen bg-gray-100 " dir="rtl">
     <header>
         <div class="bg-[url('assets/images/bg-desktop-light.jpg')] dark:bg-[url('assets/images/bg-desktop-dark.jpg')] bg-cover bg-center w-full h-72">    
         </div>
     </header>
-    <section>
-        <div class="flex flex-col justify-center items-center relative">
-            <div class="flex flex-col p-8 gap-8 w-full md:w-[768px]  bg-transparent absolute top-[-250px] text-[14px]">
+    <section class="dark:bg-gray-900">
+        <div class="flex flex-col justify-center items-center">
+            <div class="flex flex-col p-8 gap-8 w-full md:w-[768px]  bg-transparent translate-y-[-250px] text-[14px]">
                 <div class="flex justify-between items-center">
                     <h1 class="text-[24px] text-white">لیست وظایف</h1>
-                    <button id="theme-swicher"><img src="./assets/images/icon-moon.svg" alt="icon-moon"></button>
+                    <button id="theme-swicher">
+                        <img src="./assets/images/icon-moon.svg" alt="icon-moon">
+                    </button>
                 </div>
                 <div class="flex justify-start items-center bg-white dark:bg-gray-800 dark:text-white rounded shadow p-4 gap-4">
                     <button id="add-btn" class="border-2 rounded-2xl w-[25px] h-[25px] text-[10px]">+</button>
                     <input id="todo-ipt" type="text" name="todo" id="todo-id" placeholder="افزودن وظیفه جدید..." class="focus:outline-none dark:bg-gray-800">
                 </div>
-                <div class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 dark:text-gray-300 rounded shadow">
+                <div class="flex flex-col justify-center items-center bg-white dark:bg-gray-800 dark:text-gray-300 rounded shadow opa">
                     <ul id="todo-list" class="flex flex-col w-full">
-                        <li class="flex justify-between items-center cursor-move p-4 gap-4 border-b-2" draggable="true">
+                        <!-- <li class="card flex justify-between items-center cursor-move p-4 gap-4 border-b-2" draggable="true">
                             <div class="flex justify-start items-center gap-4">
                                 <input id="check-box" type="checkbox" class="w-5 h-5 rounded-full">
                                 <p>یادگیری جاوا اسکریپت</p>
                             </div>
                             <button><img src="./assets/images/icon-cross.svg" alt="delete-icon"></button>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="flex justify-between items-center bg-white rounded shadow w-full p-4 gap-4 text-[10px] text-gray-400 dark:bg-gray-800 border-b-2">
                         <p>

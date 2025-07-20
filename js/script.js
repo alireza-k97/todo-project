@@ -8,9 +8,16 @@ function main() {
   //themeSwicher
   themeBtn.addEventListener("click", () => {
     bodyTag.classList.toggle("dark");
+    const themeImg = themeBtn.children[0];
+    themeImg.setAttribute(
+      "src",
+      themeImg.getAttribute("src") === "./assets/images/icon-sun.svg"
+        ? "./assets/images/icon-moon.svg"
+        : "./assets/images/icon-sun.svg"
+    );
   });
 
-  makeElement(JSON.parse(localStorage.getItem("todos")));
+  makeElement(JSON.parse(localStorage.getItem("todos")) || []);
   //add todo input
   addBtn.addEventListener("click", () => {
     const item = todoInput.value.trim();
@@ -23,11 +30,39 @@ function main() {
 
       const currentItem = {
         item: item,
+        complated: false,
       };
 
       todos.push(currentItem);
       localStorage.setItem("todos", JSON.stringify(todos));
-      console.log("test");
+    }
+  });
+
+  todoList.addEventListener("dragstart", (e) => {
+    e.target.classList.add("opacity-50");
+  });
+  todoList.addEventListener("dragend", (e) => {
+    e.target.classList.remove("opacity-50");
+  });
+  todoList.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    if (
+      e.target.classList.contains("cursor-move") &&
+      !e.target.classList.contains("draggable")
+    ) {
+      const dragItem = document.querySelector(".opacity-50");
+      const cards = [...todoList.querySelectorAll("li")];
+      const currentPos = cards.indexOf(dragItem);
+      const newPos = cards.indexOf(e.target);
+      if (currentPos > newPos) {
+        todoList.insertBefore(dragItem, e.target);
+      } else {
+        todoList.insertBefore(dragItem, e.target.nextSibling);
+      }
+      const todos = JSON.parse(localStorage.getItem("todos"));
+      const removed = todos.splice(currentPos, 1);
+      todos.splice(newPos, 0, removed[0]);
+      localStorage.setItem("todos", JSON.stringify(todos));
     }
   });
 }
@@ -37,6 +72,7 @@ function makeElement(todoArray) {
     return null;
   }
   todoArray.forEach((element) => {
+    if (!element) return;
     const li = document.createElement("li");
     const div = document.createElement("div");
     const checkBox = document.createElement("input");
@@ -45,7 +81,8 @@ function makeElement(todoArray) {
     const clearImg = document.createElement("img");
 
     //set class
-    li.className = "flex justify-between items-center cursor-move p-4 gap-4 border-b-2";
+    li.className =
+      "flex justify-between items-center cursor-move p-4 gap-4 border-b-2";
     div.className = "flex justify-start items-center gap-4";
     checkBox.className = "w-5 h-5 rounded-full";
     //set attribute
@@ -54,8 +91,25 @@ function makeElement(todoArray) {
     clearImg.setAttribute("src", "./assets/images/icon-cross.svg");
     clearImg.setAttribute("alt", "delete-icon");
     item.textContent = element.item;
+    checkBox.checked = element.complated;
+    if (element.completed) {
+      item.classList.add("line-through", "text-gray-400");
+    }
     //add event
+    //add check box event
+    checkBox.addEventListener("change", () => {
+      const todos = JSON.parse(localStorage.getItem("todos")) || [];
+      const index = [...todoList.children].indexOf(li);
 
+      todos[index].complated = checkBox.checked;
+      localStorage.setItem("todos", JSON.stringify(todos));
+
+      if (checkBox.checked) {
+        item.classList.add("line-through", "text-gray-400");
+      } else {
+        item.classList.remove("line-through", "text-gray-400");
+      }
+    });
     //set elemen
     div.appendChild(checkBox);
     div.appendChild(item);
