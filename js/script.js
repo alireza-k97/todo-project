@@ -38,7 +38,12 @@ function main() {
       makeElement([currentItem]);
     }
   });
-  
+  // add with press ener
+  todoInput.addEventListener('keydown' , (e)=>{
+    if(e.key === "Enter"){
+        addBtn.click();
+    }
+  })
 
   todoList.addEventListener("dragstart", (e) => {
     e.target.classList.add("opacity-50");
