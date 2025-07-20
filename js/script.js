@@ -35,8 +35,10 @@ function main() {
 
       todos.push(currentItem);
       localStorage.setItem("todos", JSON.stringify(todos));
+      makeElement([currentItem]);
     }
   });
+  
 
   todoList.addEventListener("dragstart", (e) => {
     e.target.classList.add("opacity-50");
@@ -109,6 +111,17 @@ function makeElement(todoArray) {
       } else {
         item.classList.remove("line-through", "text-gray-400");
       }
+    });
+    //clear item
+    clearBtn.addEventListener("click", () => {
+      li.classList.add("opacity-0", "transition-opacity", "duration-500");
+      setTimeout(() => {
+        const todos = JSON.parse(localStorage.getItem("todos")) || [];
+        const index = [...todoList.children].indexOf(li);
+        todos.splice(index, 1);
+        localStorage.setItem("todos", JSON.stringify(todos));
+        li.remove();
+      }, 500);
     });
     //set elemen
     div.appendChild(checkBox);
