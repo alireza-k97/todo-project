@@ -3,6 +3,11 @@ const bodyTag = document.querySelector("body");
 const todoInput = document.getElementById("todo-ipt");
 const addBtn = document.getElementById("add-btn");
 const todoList = document.getElementById("todo-list");
+const numberRemaing = document.getElementById("num-ram");
+const clearCompleteBtn = document.getElementById("clear-completed");
+const showAllBtn = document.getElementById("show-all");
+const showActiveBtn = document.getElementById("show-active");
+const showCompletedBtn = document.getElementById("show-completed");
 
 function main() {
   //themeSwicher
@@ -30,21 +35,54 @@ function main() {
 
       const currentItem = {
         item: item,
-        complated: false,
+        completed: false,
       };
 
       todos.push(currentItem);
       localStorage.setItem("todos", JSON.stringify(todos));
       makeElement([currentItem]);
+      updateSpanNumber();
     }
   });
   // add with press ener
-  todoInput.addEventListener('keydown' , (e)=>{
-    if(e.key === "Enter"){
-        addBtn.click();
+  todoInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      addBtn.click();
     }
+  });
+  //add clear completed
+  clearCompleteBtn.addEventListener('click' , ()=>{
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+    const activeTodos = todos.filter(todo => !todo.completed);
+    localStorage.setItem("todos" , JSON.stringify(activeTodos));
+    todoList.innerHTML = "";
+    makeElement(activeTodos);
+    updateSpanNumber();
+  });
+  //add showing item
+  showAllBtn.addEventListener('click' , ()=>{
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+    todoList.innerHTML = "";
+    makeElement(todos);
+    updateSpanNumber();
+  });
+
+  showActiveBtn.addEventListener('click' , ()=>{
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+    const activeTodos = todos.filter(todo => !todo.completed);
+    todoList.innerHTML = "";
+    makeElement(activeTodos);
+    updateSpanNumber();
   })
 
+  showCompletedBtn.addEventListener('click' , ()=>{
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+    const completeTodos = todos.filter(todo => todo.completed);
+    todoList.innerHTML = "";
+    makeElement(completeTodos);
+    updateSpanNumber();
+  })
+  // drag and drap
   todoList.addEventListener("dragstart", (e) => {
     e.target.classList.add("opacity-50");
   });
@@ -98,7 +136,7 @@ function makeElement(todoArray) {
     clearImg.setAttribute("src", "./assets/images/icon-cross.svg");
     clearImg.setAttribute("alt", "delete-icon");
     item.textContent = element.item;
-    checkBox.checked = element.complated;
+    checkBox.checked = element.completed;
     if (element.completed) {
       item.classList.add("line-through", "text-gray-400");
     }
@@ -108,7 +146,7 @@ function makeElement(todoArray) {
       const todos = JSON.parse(localStorage.getItem("todos")) || [];
       const index = [...todoList.children].indexOf(li);
 
-      todos[index].complated = checkBox.checked;
+      todos[index].completed = checkBox.checked;
       localStorage.setItem("todos", JSON.stringify(todos));
 
       if (checkBox.checked) {
@@ -116,6 +154,7 @@ function makeElement(todoArray) {
       } else {
         item.classList.remove("line-through", "text-gray-400");
       }
+      updateSpanNumber();
     });
     //clear item
     clearBtn.addEventListener("click", () => {
@@ -126,6 +165,7 @@ function makeElement(todoArray) {
         todos.splice(index, 1);
         localStorage.setItem("todos", JSON.stringify(todos));
         li.remove();
+        updateSpanNumber();
       }, 500);
     });
     //set elemen
@@ -138,4 +178,18 @@ function makeElement(todoArray) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", main);
+function updateSpanNumber() {
+  const todos = JSON.parse(localStorage.getItem("todos")) || [];
+  const numFilter = todos.filter((todo) => !todo.completed).length;
+  numberRemaing.textContent = numFilter;
+}
+// function rendertodos(e){
+//     todoList.innerHTML = "";
+//     makeElement(e);
+//     updateSpanNumber();
+// }
+
+document.addEventListener("DOMContentLoaded", () => {
+  main();
+  updateSpanNumber();
+});
